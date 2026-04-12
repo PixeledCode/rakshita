@@ -1,0 +1,96 @@
+/*
+ * ─────────────────────────────────────────────
+ *  DESIGN TOKENS — rakshita.com
+ *  Tailwind v4 CSS-first config via @theme
+ *
+ *  All tokens here become Tailwind utilities:
+ *    --color-cream    → bg-cream, text-cream, …
+ *    --font-size-4xl  → text-4xl (override)
+ *    --spacing-section → p-section, gap-section, …
+ * ─────────────────────────────────────────────
+ */
+
+@theme {
+  /* ── COLORS ────────────────────────────────
+   * Usage: bg-cream, text-ink, border-sand, etc.
+   */
+
+  /* Core palette */
+  --color-yellow: #fce272;
+  --color-yellow-2: #fdeeaa;
+  --color-yellow-3: #fef6d5;
+  --color-pale: #fffcf1;
+
+  --color-ink-yellow: #ffe25a;
+  --color-ink-title: #121212;
+  --color-ink-text: #0e0d0d;
+
+  /* ── TYPOGRAPHY ────────────────────────────
+   * Font families
+   *
+   *  --font-sans      Be Vietnam Pro  — body text (400 regular, 500 medium, 600 semibold)
+   *  --font-display   Zodiak Bold     — main titles (Hi I am…, Rakshita Singh, Let's Talk…, Archive heading)
+   *  --font-script    Birthstone      — featured project title (Mrijula Thinks, etc.)
+   */
+  --font-sans: var(--font-be-vietnam), Arial, sans-serif;
+  --font-display: var(--font-zodiak), Georgia, serif;
+  --font-script: var(--font-birthstone), cursive;
+
+  /*
+   * Font sizes
+   */
+  --font-size-2xs: 0.625rem; /* 10px — legal, captions   */
+  --font-size-md: 1.125rem; /* 18px   */
+  --font-size-display-sm: 3.5rem; /* 56px — section headings  */
+  --font-size-display-md: 5rem; /* 80px — hero              */
+  --font-size-display-lg: 7rem; /* 112px — name, contact    */
+  --font-size-display-xl: 9rem; /* 144px — statement type   */
+
+  /*
+   * Line heights
+   */
+  --line-height-tight: 0.88;
+  --line-height-snug: 1.1;
+  --line-height-prose: 1.65;
+
+  /*
+   * Letter spacings
+   */
+  --letter-spacing-caps: 0.12em; /* uppercase labels         */
+  --letter-spacing-loose: 0.06em; /* wide body                */
+
+  /* ── SPACING ───────────────────────────────
+   * Semantic spacing on top of Tailwind's scale.
+   * Usage: px-gutter, py-section, gap-card, …
+   */
+  --spacing-gutter: 3rem; /* horizontal page padding      */
+  --spacing-gutter-sm: 1.5rem; /* mobile horizontal padding    */
+  --spacing-section: 6rem; /* vertical section spacing     */
+  --spacing-card: 1.5rem; /* internal card padding        */
+
+  /* ── BORDER RADIUS ─────────────────────────
+   * This site is editorial/minimal → mostly 0.
+   * Add values here if rounded cards are needed.
+   */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-pill: 9999px;
+
+  /* ── SHADOWS ───────────────────────────────
+   */
+  --shadow-card: 0 2px 16px 0 rgba(26, 26, 26, 0.08);
+  --shadow-lifted: 0 8px 40px 0 rgba(26, 26, 26, 0.14);
+
+  /* ── TRANSITIONS ───────────────────────────
+   */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 500ms;
+
+  /* ── Z-INDEX ───────────────────────────────
+   */
+  --z-nav: 50;
+  --z-overlay: 60;
+  --z-modal: 70;
+}
