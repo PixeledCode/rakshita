@@ -40,6 +40,5 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# sanity typegen (generated intermediates)
+# sanity typegen (intermediate schema artifact — not needed in repo)
 schema.json
-src/sanity/types.ts
