@@ -19,7 +19,7 @@ export default function About({ data }: Props) {
 
   return (
     <section id="about" className="py-16 md:py-24 px-6 md:px-12 bg-yellow-3">
-      <div className="max-w-7xl mx-auto ">
+      <div className="max-w-7xl mx-auto relative">
         <div className="flex flex-wrap md:flex-nowrap gap-6 justify-between lg:gap-24">
           {/* Left: name + bio */}
           <div className="flex flex-col justify-center lg:pb-30">
@@ -40,7 +40,7 @@ export default function About({ data }: Props) {
 
           {/* Right: photo */}
           {data.photo && (
-            <div className="mx-auto lg:mx-0 w-full max-w-[265px] md:max-w-[465px] shrink-0">
+            <div className="mx-auto lg:mx-0 w-full lg:mt-18 max-w-66 md:max-w-116 shrink-0">
               <Image
                 src={urlFor(data.photo)
                   .width(930)
@@ -56,7 +56,7 @@ export default function About({ data }: Props) {
           )}
         </div>
         {data.quote && (
-          <blockquote className="p-2.5 italic lg:text-2xl max-w-180 mx-auto -mt-20 z-10 relative [background:linear-gradient(90deg,#FEF7D5_0%,rgba(254,247,213,0)_100%)] md:[background:linear-gradient(90deg,rgba(254,247,213,0)_0%,#FEF7D5_100%)]">
+          <blockquote className="absolute bottom-0 lg:left-[25%] lg:bottom-10 mx-auto p-2.5 italic lg:text-2xl max-w-180 z-10 [background:linear-gradient(90deg,#FEF7D5_0%,rgba(254,247,213,0)_100%)] md:[background:linear-gradient(90deg,rgba(254,247,213,0)_0%,#FEF7D5_100%)]">
             {data.quote}
           </blockquote>
         )}

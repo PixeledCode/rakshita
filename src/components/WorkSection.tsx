@@ -1,7 +1,9 @@
 "use client";
 
-import { useState, useCallback, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Lightbox from "yet-another-react-lightbox";
+import "yet-another-react-lightbox/styles.css";
 import { urlFor } from "@/sanity/image";
 
 type Category = {
@@ -15,6 +17,7 @@ type Project = {
   thumbnail: Record<string, unknown>;
   externalUrl: string;
   category: { _id: string; title: string };
+  role?: string;
 };
 
 type GalleryPhoto = {
@@ -31,7 +34,7 @@ type Props = {
 
 export default function WorkSection({ categories, projects, photos }: Props) {
   const [activeId, setActiveId] = useState<string>(categories[0]?._id ?? "");
-  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [lightboxIndex, setLightboxIndex] = useState(-1);
   const [indicatorStyle, setIndicatorStyle] = useState({ left: 0, width: 0 });
   const tabRefs = useRef<Map<string, HTMLButtonElement>>(new Map());
 
@@ -41,7 +44,6 @@ export default function WorkSection({ categories, projects, photos }: Props) {
 
   const filteredProjects = projects.filter((p) => p.category._id === activeId);
 
-  const closeLightbox = useCallback(() => setLightboxIndex(null), []);
 
   useEffect(() => {
     const el = tabRefs.current.get(activeId);
@@ -90,7 +92,9 @@ export default function WorkSection({ categories, projects, photos }: Props) {
 
         {/* Projects grid */}
         {!isPhotoCategory && (
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div
+            className={`grid grid-cols-1 gap-4 ${filteredProjects.length > 1 ? "sm:grid-cols-2" : ""}`}
+          >
             {filteredProjects.map((project) => (
               <a
                 key={project._id}
@@ -99,18 +103,24 @@ export default function WorkSection({ categories, projects, photos }: Props) {
                 rel="noopener noreferrer"
                 className="group block"
               >
-                <div className="overflow-hidden aspect-video bg-black/10">
+                <div className="overflow-hidden relative aspect-video bg-black/10">
                   <Image
                     src={urlFor(project.thumbnail)
-                      .width(700)
-                      .height(394)
+                      .width(1280)
+                      .height(720)
                       .fit("crop")
                       .url()}
                     alt={project.title}
-                    width={700}
-                    height={394}
+                    width={1280}
+                    height={720}
+                    sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 640px"
                     className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                   />
+                  {project?.role ? (
+                    <span className="absolute block text-sm lg:text-base py-1.5 lg:py-2.5 px-3 lg:px-6 font-semibold text-white bottom-1 md:bottom-4 lg:bottom-7 bg-white/30 w-full">
+                      {project?.role}
+                    </span>
+                  ) : null}
                 </div>
               </a>
             ))}
@@ -128,70 +138,25 @@ export default function WorkSection({ categories, projects, photos }: Props) {
                   className="block w-full mb-3 overflow-hidden group"
                 >
                   <Image
-                    src={urlFor(photo.image).width(600).url()}
+                    src={urlFor(photo.image).width(1200).url()}
                     alt={photo.alt ?? ""}
-                    width={600}
-                    height={800}
+                    width={1200}
+                    height={1600}
+                    sizes="(max-width: 768px) 50vw, (max-width: 1280px) 25vw, 320px"
                     className="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500"
                   />
                 </button>
               ))}
             </div>
-
-            {/* Lightbox */}
-            {lightboxIndex !== null && (
-              <div
-                className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4"
-                onClick={closeLightbox}
-              >
-                <button
-                  className="absolute top-6 right-8 text-white text-3xl leading-none"
-                  onClick={closeLightbox}
-                  aria-label="Close"
-                >
-                  ×
-                </button>
-
-                <div
-                  className="relative max-h-[90vh] max-w-[90vw]"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <Image
-                    src={urlFor(photos[lightboxIndex].image).height(1200).url()}
-                    alt={photos[lightboxIndex].alt ?? ""}
-                    width={1200}
-                    height={1200}
-                    className="max-h-[90vh] max-w-[90vw] w-auto h-auto object-contain"
-                  />
-                </div>
-
-                {/* Prev / Next */}
-                {lightboxIndex > 0 && (
-                  <button
-                    className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-4xl px-3"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLightboxIndex(lightboxIndex - 1);
-                    }}
-                    aria-label="Previous"
-                  >
-                    ‹
-                  </button>
-                )}
-                {lightboxIndex < photos.length - 1 && (
-                  <button
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-4xl px-3"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLightboxIndex(lightboxIndex + 1);
-                    }}
-                    aria-label="Next"
-                  >
-                    ›
-                  </button>
-                )}
-              </div>
-            )}
+            <Lightbox
+              open={lightboxIndex >= 0}
+              index={lightboxIndex}
+              close={() => setLightboxIndex(-1)}
+              slides={photos.map((photo) => ({
+                src: urlFor(photo.image).width(1600).url(),
+                alt: photo.alt ?? "",
+              }))}
+            />
           </>
         )}
 

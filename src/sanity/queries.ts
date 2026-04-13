@@ -37,6 +37,7 @@ export const PROJECTS_QUERY = defineQuery(`
     title,
     thumbnail,
     externalUrl,
+    role,
     order,
     "category": category->{ _id, title }
   }
