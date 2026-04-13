@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typegen": "cd ../studio-rakshita && pnpm sanity schema extract --path ../rakshita/schema.json && cd ../rakshita && pnpm sanity typegen generate"
   },
   "dependencies": {
     "@portabletext/react": "^6.0.3",
@@ -26,6 +27,7 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.3",
+    "sanity": "^5.20.0",
     "tailwindcss": "^4",
     "typescript": "^5"
   }

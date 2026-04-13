@@ -40,7 +40,7 @@ export default async function Page() {
         <About data={settings?.about ?? null} />
         <Archive data={settings?.archive ?? null} />
         <Contact data={settings?.contact ?? null} />
-        <Bottombar list={settings?.bottomBar ?? null} />
+        <Bottombar list={settings?.bottomBar ?? []} />
       </main>
     </>
   );

@@ -1,23 +1,16 @@
 import Image from "next/image";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/sanity/image";
+import type { FEATURED_PROJECT_QUERY_RESULT } from "@/sanity/types";
 
 type Props = {
-  data: {
-    backgroundImage: Record<string, unknown>;
-    recognitionImage?: Record<string, unknown>;
-    title: string;
-    subtitle?: string;
-    description?: import("@portabletext/react").PortableTextProps["value"];
-    linkText?: string;
-    linkUrl?: string;
-  } | null;
+  data: FEATURED_PROJECT_QUERY_RESULT;
 };
 
 export default function FeaturedProject({ data }: Props) {
   if (!data) return null;
 
-  const bgUrl = urlFor(data.backgroundImage).width(1800).quality(90).url();
+  const bgUrl = urlFor(data.backgroundImage!).width(1800).quality(90).url();
   const recogUrl = data.recognitionImage
     ? urlFor(data.recognitionImage).width(1400).url()
     : null;

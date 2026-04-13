@@ -3,27 +3,19 @@
 import Image from "next/image";
 import Marquee from "react-fast-marquee";
 import { urlFor } from "@/sanity/image";
+import type { SiteSettings } from "@/sanity/types";
 
-type ArchiveImage = {
-  _key?: string;
-  asset?: Record<string, unknown>;
-  alt?: string;
-  [key: string]: unknown;
-};
+type ArchiveImage = NonNullable<NonNullable<SiteSettings["archive"]>["images"]>[number];
 
 type Props = {
-  data: {
-    heading?: string;
-    archiveSubtitle?: string;
-    images?: ArchiveImage[];
-  } | null;
+  data: SiteSettings["archive"] | null;
 };
 
 function getAssetDimensions(img: ArchiveImage): {
   width: number;
   height: number;
 } {
-  const ref = (img.asset as { _ref?: string } | undefined)?._ref ?? "";
+  const ref = img.asset?._ref ?? "";
   const match = ref.match(/-(\d+)x(\d+)-/);
   if (match) return { width: parseInt(match[1]), height: parseInt(match[2]) };
   return { width: 400, height: 533 };

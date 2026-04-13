@@ -1,10 +1,7 @@
-type Category = {
-  _key: string;
-  bottombarText: string;
-};
+import type { SiteSettings } from "@/sanity/types";
 
 type Props = {
-  list: Category[];
+  list: NonNullable<SiteSettings["bottomBar"]>;
 };
 
 export default function Bottombar({ list }: Props) {

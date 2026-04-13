@@ -1,16 +1,7 @@
-type Social = {
-  platform: string;
-  url: string;
-};
+import type { SiteSettings } from "@/sanity/types";
 
 type Props = {
-  data: {
-    heading?: string;
-    subtext?: string;
-    email?: string;
-    phone?: string;
-    socials?: Social[];
-  } | null;
+  data: SiteSettings["contact"] | null;
 };
 
 export default function Contact({ data }: Props) {

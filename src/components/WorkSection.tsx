@@ -5,31 +5,16 @@ import Image from "next/image";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
 import { urlFor } from "@/sanity/image";
-
-type Category = {
-  _id: string;
-  title: string;
-};
-
-type Project = {
-  _id: string;
-  title: string;
-  thumbnail: Record<string, unknown>;
-  externalUrl: string;
-  category: { _id: string; title: string };
-  role?: string;
-};
-
-type GalleryPhoto = {
-  _id: string;
-  image: Record<string, unknown>;
-  alt?: string;
-};
+import type {
+  CATEGORIES_QUERY_RESULT,
+  PROJECTS_QUERY_RESULT,
+  GALLERY_PHOTOS_QUERY_RESULT,
+} from "@/sanity/types";
 
 type Props = {
-  categories: Category[];
-  projects: Project[];
-  photos: GalleryPhoto[];
+  categories: CATEGORIES_QUERY_RESULT;
+  projects: PROJECTS_QUERY_RESULT;
+  photos: GALLERY_PHOTOS_QUERY_RESULT;
 };
 
 export default function WorkSection({ categories, projects, photos }: Props) {
@@ -40,9 +25,9 @@ export default function WorkSection({ categories, projects, photos }: Props) {
 
   const activeCategory = categories.find((c) => c._id === activeId);
   const isPhotoCategory =
-    activeCategory?.title.toLowerCase().includes("photo") ?? false;
+    activeCategory?.title?.toLowerCase().includes("photo") ?? false;
 
-  const filteredProjects = projects.filter((p) => p.category._id === activeId);
+  const filteredProjects = projects.filter((p) => p.category?._id === activeId);
 
 
   useEffect(() => {
@@ -98,19 +83,19 @@ export default function WorkSection({ categories, projects, photos }: Props) {
             {filteredProjects.map((project) => (
               <a
                 key={project._id}
-                href={project.externalUrl}
+                href={project.externalUrl ?? undefined}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group block"
               >
                 <div className="overflow-hidden relative aspect-video bg-black/10">
                   <Image
-                    src={urlFor(project.thumbnail)
+                    src={urlFor(project.thumbnail!)
                       .width(1280)
                       .height(720)
                       .fit("crop")
                       .url()}
-                    alt={project.title}
+                    alt={project.title ?? ""}
                     width={1280}
                     height={720}
                     sizes="(max-width: 640px) 100vw, (max-width: 1280px) 50vw, 640px"
@@ -138,7 +123,7 @@ export default function WorkSection({ categories, projects, photos }: Props) {
                   className="block w-full mb-3 overflow-hidden group"
                 >
                   <Image
-                    src={urlFor(photo.image).width(1200).url()}
+                    src={urlFor(photo.image!).width(1200).url()}
                     alt={photo.alt ?? ""}
                     width={1200}
                     height={1600}
@@ -153,7 +138,7 @@ export default function WorkSection({ categories, projects, photos }: Props) {
               index={lightboxIndex}
               close={() => setLightboxIndex(-1)}
               slides={photos.map((photo) => ({
-                src: urlFor(photo.image).width(1600).url(),
+                src: urlFor(photo.image!).width(1600).url(),
                 alt: photo.alt ?? "",
               }))}
             />

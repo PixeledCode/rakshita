@@ -1,14 +1,10 @@
 import Image from "next/image";
 import { PortableText } from "@portabletext/react";
 import { urlFor } from "@/sanity/image";
+import type { SiteSettings } from "@/sanity/types";
 
 type Props = {
-  data: {
-    name?: string;
-    bio?: import("@portabletext/react").PortableTextProps["value"];
-    quote?: string;
-    photo?: Record<string, unknown>;
-  } | null;
+  data: SiteSettings["about"] | null;
 };
 
 export default function About({ data }: Props) {
