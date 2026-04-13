@@ -29,7 +29,6 @@ export default function WorkSection({ categories, projects, photos }: Props) {
 
   const filteredProjects = projects.filter((p) => p.category?._id === activeId);
 
-
   useEffect(() => {
     const el = tabRefs.current.get(activeId);
     if (el) {
